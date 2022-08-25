@@ -1,0 +1,22 @@
+EXPORT Lamp()
+BEGIN
+  LOCAL tc;
+  RECT_P();
+  RECT_P(0,0,320,240,RGB(255,255,255),
+    RGB(255,255,255));
+  //RECT_P(0,0,320,240,RGB(255,255,255),
+  //  RGB(255,255,150)); 
+  WHILE true DO // Doodle.
+    tc:=WAIT(-1);
+    IF tc(1)==1 THEN
+      RECT_P(tc(2)-5,tc(3)-5,
+        tc(2)+5,tc(3)+5,
+        RGB(0,0,0),
+        RGB(255,255,255,150));
+    END;
+    //IF tc==0 THEN
+      //RECT_P(0,0,320,240,RGB(255,255,255),
+        //RGB(255,255,255)); 
+    //END;     
+  END;
+END;
