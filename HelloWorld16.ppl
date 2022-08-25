@@ -1,0 +1,35 @@
+EXPORT HelloWorld16()
+BEGIN 
+  PRINT();
+  LOCAL FDOW:="",FDT:="";
+  CASE
+    IF DAYOFWEEK(Date)==1 THEN 
+      FDOW:="Monday" END;
+    IF DAYOFWEEK(Date)==2 THEN 
+      FDOW:="Tuesday" END;
+    IF DAYOFWEEK(Date)==3 THEN 
+      FDOW:="Wednesday" END;
+    IF DAYOFWEEK(Date)==4 THEN 
+      FDOW:="Thursday" END;
+    IF DAYOFWEEK(Date)==5 THEN 
+      FDOW:="Friday" END;
+    IF DAYOFWEEK(Date)==6 THEN 
+      FDOW:="Sat" END;
+    IF DAYOFWEEK(Date)==7 THEN 
+      FDOW:="Sun" END;
+    DEFAULT FDOW:="Undefined";
+  END; 
+  FDT:=STRING(Date);
+  FDT:=MID(FDT,6,2)+"/"+
+       RIGHT(FDT,2)+"/"+
+       LEFT(FDT,4); 
+  PRINT("Hello Base 2 World! "+
+    FDOW+", "+FDT);
+  FOR E FROM 0 TO 16 DO
+    PRINT("2 to the power of "+
+      E+" is "+2^E+".");
+    WAIT(.35);
+  END;
+  FREEZE; 
+  KILL;
+END;
