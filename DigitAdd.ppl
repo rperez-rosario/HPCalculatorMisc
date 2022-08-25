@@ -1,0 +1,11 @@
+EXPORT DigitAdd(NUMBER)
+BEGIN
+  LOCAL nstr=STRING(NUMBER);
+  LOCAL chrsumstr="";
+  FOR C FROM 1 TO DIM(nstr) DO
+    chrsumstr:=chrsumstr+MID(nstr,C,1)+"+";
+  END;
+  chrsumstr:=
+    LEFT(chrsumstr,DIM(chrsumstr)-1);
+  RETURN(EXPR(chrsumstr));
+END;
