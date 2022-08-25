@@ -1,0 +1,9 @@
+EXPORT RanDice()
+BEGIN
+  PRINT();
+  FOR I FROM 1 TO 1000000 STEP 1 DO
+    PRINT("Dice A, B: "+RANDINT(1,6)+
+      ", "+RANDINT(1,6));
+    WAIT(−1);
+  END;
+END;
