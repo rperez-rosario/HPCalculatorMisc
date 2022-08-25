@@ -1,0 +1,21 @@
+EXPORT IsPrime(N)
+BEGIN
+  IF N<=1 THEN RETURN false; END;
+  FOR D FROM 2 TO ROUND(N/2,0) DO
+    IF N MOD D==0 THEN // Not a prime.
+      RETURN false;  
+    END;
+  END;
+  RETURN true;
+END;
+
+EXPORT ListPrimes()
+BEGIN
+  PRINT(); // Clear terminal.
+  FOR C FROM -1 TO 10000000 DO
+    //IF C==2000 THEN
+      //DEBUG;
+    //END;
+    IF IsPrime(C)==true THEN PRINT(C); END;
+  END; 
+END;
