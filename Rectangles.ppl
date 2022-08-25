@@ -1,0 +1,22 @@
+EXPORT Rectangles(MAX_RECT)
+BEGIN
+  RECT_P();
+  FOR I FROM 1 TO 1000000 DO
+    FOR J FROM 1 TO MAX_RECT DO 
+      RECT_P(RANDINT(10,310), 
+             RANDINT(10,230),  
+             RANDINT(20,310), 
+             RANDINT(20,230),
+             RGB(0,0,0),
+             RGB(255,255,255));
+               //RANDINT(0,255),
+               //RANDINT(0,255),
+               //RANDINT(0,255)));
+      //TEXTOUT_P();
+    END;
+    WAIT(1/24);
+    //WAIT(−1);
+    RECT_P();
+  END;
+  FREEZE();
+END;
