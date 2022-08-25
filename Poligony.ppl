@@ -1,0 +1,124 @@
+// Polygony: A freehand line decorator.
+// Copyright © Rafael Pérez 2020.
+// rperezrosario@outlook.com.
+
+EXPORT Polygony()
+BEGIN
+  LOCAL ctc;     // Current touch capture.
+  LOCAL ptc;     // Previous touch capture.
+  LOCAL dccx;    // Dir. change capture x.
+  LOCAL dccy;    // Dir. change capture y.
+  LOCAL it=true; // Initial touch.
+  // Mark points.
+  LOCAL mpt={{0,0}}; // List.
+  LOCAL mptcnt=0;    // Counter.
+
+  RECT(); // Clear screen.
+  // Paint white background.
+  RECT_P(0,0,GROBW_P(G0),GROBH_P(G0),
+    RGB(255,255,255),RGB(255,255,255));
+  WHILE true DO // Doodle.
+    // Capture current touch.
+    ctc:=WAIT(-1);
+    IF TYPE(ctc)==6 THEN // List.
+      IF ctc(1)==3 THEN // Touch and release.
+        ARC_P(ctc(2),ctc(3),3,
+          {RGB(0,0,0),RGB(0,0,0)});
+        //Add marked point to list.
+        mptcnt:=mptcnt+1; // Incr. counter.
+        mpt(mptcnt,1):=ctc(2); // X.
+        mpt(mptcnt,2):=ctc(3); // Y.
+      END;
+      IF ctc(1)==2 THEN // Touch release. 
+        it:=true;
+        // Mark touch release.
+        IF ptc(1)==1 THEN // Touch drag.
+          ARC_P(ptc(2),ptc(3),3,
+            {RGB(0,0,0),RGB(0,0,0)});
+          //Add marked point to list.
+          mptcnt:=mptcnt+1; // Incr. counter.
+          mpt(mptcnt,1):=ptc(2); // X.
+          mpt(mptcnt,2):=ptc(3); // Y.
+        END;
+      END;
+      IF ctc(1)==1 THEN // Touch move.
+        IF it THEN // Initial touch mode. 
+          ptc:=ctc;
+          dccx:=ctc;
+          dccy:=ctc;
+          // Mark touch.
+          ARC_P(ctc(2),ctc(3),3,
+            {RGB(0,0,0),RGB(0,0,0)});
+          // Add marked point to list.
+          mptcnt:=mptcnt+1;
+          mpt(mptcnt,1):=ctc(2); // X.
+          mpt(mptcnt,2):=ctc(3); // Y.
+        END;
+        // Direction change markings.
+        // X-Axis
+        IF dccx(1)==1 THEN
+          IF (ctc(2)>dccx(2) AND 
+            ctc(2)-ptc(2)<0) OR
+            (ctc(2)<dccx(2) AND
+            ctc(2)-ptc(2)≥0) THEN
+            // Mark change.
+            ARC_P(ptc(2),ptc(3),3,
+              {RGB(0,0,0),RGB(0,0,0)});
+            // Reset capture.
+            dccx:=ptc;
+            // Add marked point to list.
+            mptcnt:=mptcnt+1;
+            mpt(mptcnt,1):=ptc(2); // X.
+            mpt(mptcnt,2):=ptc(3); // Y.
+          END;
+        END;
+        // Y-Axis
+        IF dccy(1)==1 THEN
+          IF (ctc(3)>dccy(3) AND 
+            ctc(3)-ptc(3)<0) OR
+            (ctc(3)<dccy(3) AND
+            ctc(3)-ptc(3)≥0) THEN
+            // Mark change.
+            ARC_P(ptc(2),ptc(3),3,
+              {RGB(0,0,0),RGB(0,0,0)});
+            // Reset capture.
+            dccy:=ptc; 
+            // Add marked point to list.
+            mptcnt:=mptcnt+1;
+            mpt(mptcnt,1):=ptc(2); // X.
+            mpt(mptcnt,2):=ptc(3); // Y.
+          END;
+        END;
+        // Print line.
+        IF ptc(1)==1 THEN 
+          LINE_P(ptc(2),ptc(3),ctc(2),ctc(3),
+            RGB(255,0,0,150));
+        END;
+        ptc:=ctc;
+        it:=false;
+      END;
+    ELSE
+      IF TYPE(ctc)==0 THEN // Real.
+        IF ctc==4 THEN // Reset.
+          it:=true; // Initial touch.
+          // Mark points.
+          mpt:={{0,0}}; // List.
+          mptcnt:=0;    // Counter. 
+          RECT();       // Clear screen.
+          // Paint white background.
+          RECT_P(0,0,GROBW_P(G0),GROBH_P(G0),
+          RGB(255,255,255),RGB(255,255,255));
+        END;
+      END;
+    END;  
+    // Print polygonic trace.
+    IF mptcnt>1 THEN 
+      FOR P FROM 1 TO mptcnt-1 DO
+        LINE_P(mpt(mptcnt,1),
+          mpt(mptcnt,2),
+          mpt(P,1),mpt(P,2),
+          RGB(0,0,0,250));
+      END;
+    END;
+  END;
+END;
