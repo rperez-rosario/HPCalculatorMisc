@@ -1,0 +1,18 @@
+EXPORT DigitAddList()
+BEGIN
+  LOCAL nstr="";
+  LOCAL chrsumstr="";
+  PRINT();
+  FOR N FROM 0 TO 10000000 DO
+    nstr:=STRING(N);
+    FOR C FROM 1 TO DIM(nstr) DO
+      chrsumstr:=chrsumstr+MID(nstr,C,1)+"+";
+    END; 
+    chrsumstr:=
+      LEFT(chrsumstr,DIM(chrsumstr)-1);
+    PRINT(nstr+"='"+chrsumstr+"'="+
+      EXPR(chrsumstr)+".");
+    chrsumstr:="";
+    WAIT(1/24);
+  END;
+END;
